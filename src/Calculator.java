@@ -12,7 +12,7 @@ public class Calculator implements ActionListener {
     JButton decButton, equButton, delButton, clrButton;
     JPanel panel;
 
-    Font font = new Font("Futura", Font.BOLD, 30);
+    Font myFont = new Font("Futura", Font.BOLD, 30);
 
     double num1 = 0, num2 = 0, res = 0;
     char operator;
@@ -23,8 +23,12 @@ public class Calculator implements ActionListener {
         frame.setSize(420, 550);
         frame.setLayout(null);
 
-        
+        textField = new JTextField();
+        textField.setBounds(50, 25, 300, 50);
+        textField.setFont(myFont);
+        textField.setEditable(false);
 
+        frame.add(textField);
         frame.setVisible(true);
     }
 
