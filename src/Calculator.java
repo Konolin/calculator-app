@@ -207,13 +207,19 @@ public class Calculator implements ActionListener, KeyListener {
                     case '+' -> result = num1 + num2;
                     case '-' -> result = num1 - num2;
                     case '*' -> result = num1 * num2;
-                    case '/' -> result = num1 / num2;
+                    case '/' -> {
+                        if (num2 == 0) {
+                            textField.setText("Can't divide by zero");
+                            return;
+                        }
+                        result = num1 / num2;
+                    }
                 }
                 textField.setText(String.valueOf(result));
                 num1 = result;
             }
             case '.' -> {
-                if(textField.getText().isEmpty()) {
+                if (textField.getText().isEmpty()) {
                     textField.setText(textField.getText().concat("0."));
                 }
                 if (!textField.getText().contains(".")) {
@@ -223,6 +229,11 @@ public class Calculator implements ActionListener, KeyListener {
             case 'd' -> {
                 String string = textField.getText();
                 textField.setText("");
+
+                if (!Character.isDigit(string.charAt(string.length() - 1)) && string.charAt(string.length() - 1) != 'E') {
+                    return;
+                }
+
                 for (int i = 0; i < string.length() - 1; i++) {
                     textField.setText(textField.getText() + string.charAt(i));
                 }
