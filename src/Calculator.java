@@ -8,13 +8,12 @@ public class Calculator implements ActionListener, KeyListener {
     JTextField textField;
     JButton[] numberButtons = new JButton[10];
     JButton[] functionButtons = new JButton[8];
-    JButton addButton, subButton, mulButton, divButton;
-    JButton decButton, equButton, delButton, clrButton;
+    JButton addButton, subButton, mulButton, divButton, decButton, equButton, delButton, clrButton;
     JPanel panel;
 
     Font myFont = new Font("Futura", Font.BOLD, 30);
 
-    double num1 = 0, num2 = 0, result = 0;
+    float num1 = 0, num2 = 0, result = 0;
     char operator;
 
     Calculator() {
@@ -177,7 +176,7 @@ public class Calculator implements ActionListener, KeyListener {
     public void handleOperator(char input) {
         switch (input) {
             case '+' -> {
-                num1 = Double.parseDouble(textField.getText());
+                num1 = Float.parseFloat(textField.getText());
                 operator = '+';
                 textField.setText("");
             }
@@ -186,23 +185,23 @@ public class Calculator implements ActionListener, KeyListener {
                 if (temp.isEmpty()) {
                     textField.setText("-");
                 } else {
-                    num1 = Double.parseDouble(temp);
+                    num1 = Float.parseFloat(temp);
                     operator = '-';
                     textField.setText("");
                 }
             }
             case '*' -> {
-                num1 = Double.parseDouble(textField.getText());
+                num1 = Float.parseFloat(textField.getText());
                 operator = '*';
                 textField.setText("");
             }
             case '/' -> {
-                num1 = Double.parseDouble(textField.getText());
+                num1 = Float.parseFloat(textField.getText());
                 operator = '/';
                 textField.setText("");
             }
             case '=' -> {
-                num2 = Double.parseDouble(textField.getText());
+                num2 = Float.parseFloat(textField.getText());
                 switch (operator) {
                     case '+' -> result = num1 + num2;
                     case '-' -> result = num1 - num2;
