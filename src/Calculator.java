@@ -176,12 +176,12 @@ public class Calculator implements ActionListener, KeyListener {
 
     public void handleOperator(char input) {
         switch (input) {
-            case '+':
+            case '+' -> {
                 num1 = Double.parseDouble(textField.getText());
                 operator = '+';
                 textField.setText("");
-                break;
-            case '-':
+            }
+            case '-' -> {
                 String temp = textField.getText();
                 if (temp.isEmpty()) {
                     textField.setText("-");
@@ -190,40 +190,43 @@ public class Calculator implements ActionListener, KeyListener {
                     operator = '-';
                     textField.setText("");
                 }
-                break;
-            case '*':
+            }
+            case '*' -> {
                 num1 = Double.parseDouble(textField.getText());
                 operator = '*';
                 textField.setText("");
-                break;
-            case '/':
+            }
+            case '/' -> {
                 num1 = Double.parseDouble(textField.getText());
                 operator = '/';
                 textField.setText("");
-                break;
-            case '=':
+            }
+            case '=' -> {
                 num2 = Double.parseDouble(textField.getText());
-
                 switch (operator) {
                     case '+' -> result = num1 + num2;
                     case '-' -> result = num1 - num2;
                     case '*' -> result = num1 * num2;
                     case '/' -> result = num1 / num2;
                 }
-
                 textField.setText(String.valueOf(result));
                 num1 = result;
-                break;
-            case '.':
-                textField.setText(textField.getText().concat("."));
-                break;
-            case 'd':
+            }
+            case '.' -> {
+                if(textField.getText().isEmpty()) {
+                    textField.setText(textField.getText().concat("0."));
+                }
+                if (!textField.getText().contains(".")) {
+                    textField.setText(textField.getText().concat("."));
+                }
+            }
+            case 'd' -> {
                 String string = textField.getText();
                 textField.setText("");
                 for (int i = 0; i < string.length() - 1; i++) {
                     textField.setText(textField.getText() + string.charAt(i));
                 }
-                break;
+            }
         }
     }
 }
