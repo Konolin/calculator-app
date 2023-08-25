@@ -113,9 +113,15 @@ public class Calculator implements ActionListener {
         }
 
         if (e.getSource() == subButton) {
-            num1 = Double.parseDouble(textField.getText());
-            operator = '-';
-            textField.setText("");
+            String temp = textField.getText();
+
+            if(temp.isEmpty()) {
+                textField.setText("-");
+            } else {
+                num1 = Double.parseDouble(temp);
+                operator = '-';
+                textField.setText("");
+            }
         }
 
         if (e.getSource() == mulButton) {
@@ -134,18 +140,10 @@ public class Calculator implements ActionListener {
             num2 = Double.parseDouble(textField.getText());
 
             switch (operator) {
-                case '+':
-                    result = num1 + num2;
-                    break;
-                case '-':
-                    result = num1 - num2;
-                    break;
-                case '*':
-                    result = num1 * num2;
-                    break;
-                case '/':
-                    result = num1 / num2;
-                    break;
+                case '+' -> result = num1 + num2;
+                case '-' -> result = num1 - num2;
+                case '*' -> result = num1 * num2;
+                case '/' -> result = num1 / num2;
             }
 
             textField.setText(String.valueOf(result));
