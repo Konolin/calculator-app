@@ -2,7 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class Calculator implements ActionListener {
+public class Calculator implements ActionListener, KeyListener {
 
     JFrame frame;
     JTextField textField;
@@ -22,6 +22,7 @@ public class Calculator implements ActionListener {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(420, 550);
         frame.setLayout(null);
+        frame.addKeyListener(this);
 
         textField = new JTextField();
         textField.setBounds(50, 25, 300, 50);
@@ -87,6 +88,7 @@ public class Calculator implements ActionListener {
         frame.add(delButton);
         frame.add(clrButton);
         frame.add(textField);
+        frame.setFocusable(true);
         frame.setVisible(true);
     }
 
@@ -103,51 +105,27 @@ public class Calculator implements ActionListener {
         }
 
         if (e.getSource() == decButton) {
-            textField.setText(textField.getText().concat("."));
+            handleOperator('.');
         }
 
         if (e.getSource() == addButton) {
-            num1 = Double.parseDouble(textField.getText());
-            operator = '+';
-            textField.setText("");
+            handleOperator('+');
         }
 
         if (e.getSource() == subButton) {
-            String temp = textField.getText();
-
-            if(temp.isEmpty()) {
-                textField.setText("-");
-            } else {
-                num1 = Double.parseDouble(temp);
-                operator = '-';
-                textField.setText("");
-            }
+            handleOperator('-');
         }
 
         if (e.getSource() == mulButton) {
-            num1 = Double.parseDouble(textField.getText());
-            operator = '*';
-            textField.setText("");
+            handleOperator('*');
         }
 
         if (e.getSource() == divButton) {
-            num1 = Double.parseDouble(textField.getText());
-            operator = '/';
-            textField.setText("");
+            handleOperator('/');
         }
 
         if (e.getSource() == equButton) {
-            num2 = Double.parseDouble(textField.getText());
-
-            switch (operator) {
-                case '+' -> result = num1 + num2;
-                case '-' -> result = num1 - num2;
-                case '*' -> result = num1 * num2;
-                case '/' -> result = num1 / num2;
-            }
-
-            textField.setText(String.valueOf(result));
-            num1 = result;
+            handleOperator('=');
         }
 
         if (e.getSource() == clrButton) {
@@ -157,9 +135,82 @@ public class Calculator implements ActionListener {
         if (e.getSource() == delButton) {
             String string = textField.getText();
             textField.setText("");
-            for(int i = 0; i < string.length() - 1; i++) {
+            for (int i = 0; i < string.length() - 1; i++) {
                 textField.setText(textField.getText() + string.charAt(i));
             }
+        }
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        char keyChar = e.getKeyChar();
+
+        if (Character.isDigit(keyChar)) {
+            textField.setText(textField.getText().concat(String.valueOf(keyChar)));
+            return;
+        }
+
+        switch (keyChar) {
+            case '+' -> handleOperator('+');
+            case '-' -> handleOperator('-');
+            case '*' -> handleOperator('*');
+            case '/' -> handleOperator('/');
+            case '=' -> handleOperator('=');
+            case '.' -> handleOperator('.');
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+    }
+
+    public void handleOperator(char input) {
+        switch (input) {
+            case '+':
+                num1 = Double.parseDouble(textField.getText());
+                operator = '+';
+                textField.setText("");
+                break;
+            case '-':
+                String temp = textField.getText();
+                if (temp.isEmpty()) {
+                    textField.setText("-");
+                } else {
+                    num1 = Double.parseDouble(temp);
+                    operator = '-';
+                    textField.setText("");
+                }
+                break;
+            case '*':
+                num1 = Double.parseDouble(textField.getText());
+                operator = '*';
+                textField.setText("");
+                break;
+            case '/':
+                num1 = Double.parseDouble(textField.getText());
+                operator = '/';
+                textField.setText("");
+                break;
+            case '=':
+                num2 = Double.parseDouble(textField.getText());
+
+                switch (operator) {
+                    case '+' -> result = num1 + num2;
+                    case '-' -> result = num1 - num2;
+                    case '*' -> result = num1 * num2;
+                    case '/' -> result = num1 / num2;
+                }
+
+                textField.setText(String.valueOf(result));
+                num1 = result;
+                break;
+            case '.':
+                textField.setText(textField.getText().concat("."));
+                break;
         }
     }
 }
