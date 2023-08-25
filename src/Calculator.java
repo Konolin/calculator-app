@@ -133,11 +133,7 @@ public class Calculator implements ActionListener, KeyListener {
         }
 
         if (e.getSource() == delButton) {
-            String string = textField.getText();
-            textField.setText("");
-            for (int i = 0; i < string.length() - 1; i++) {
-                textField.setText(textField.getText() + string.charAt(i));
-            }
+            handleOperator('d');
         }
     }
 
@@ -147,10 +143,21 @@ public class Calculator implements ActionListener, KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
+        int keyCode = e.getKeyCode();
         char keyChar = e.getKeyChar();
 
         if (Character.isDigit(keyChar)) {
             textField.setText(textField.getText().concat(String.valueOf(keyChar)));
+            return;
+        }
+
+        if (keyCode == KeyEvent.VK_ENTER || keyChar == '=') {
+            handleOperator('=');
+            return;
+        }
+
+        if (keyCode == KeyEvent.VK_BACK_SPACE) {
+            handleOperator('d');
             return;
         }
 
@@ -159,7 +166,6 @@ public class Calculator implements ActionListener, KeyListener {
             case '-' -> handleOperator('-');
             case '*' -> handleOperator('*');
             case '/' -> handleOperator('/');
-            case '=' -> handleOperator('=');
             case '.' -> handleOperator('.');
         }
     }
@@ -210,6 +216,13 @@ public class Calculator implements ActionListener, KeyListener {
                 break;
             case '.':
                 textField.setText(textField.getText().concat("."));
+                break;
+            case 'd':
+                String string = textField.getText();
+                textField.setText("");
+                for (int i = 0; i < string.length() - 1; i++) {
+                    textField.setText(textField.getText() + string.charAt(i));
+                }
                 break;
         }
     }
